@@ -13,9 +13,14 @@ SimpleCov.start
 
 Dir["#{MODELS}/*.rb"].each { |f| require f }
 
+Mongoid.config.master = Mongo::Connection.new.db("mongoid_rateable_test")
+
+=begin
 Mongoid.configure do |config|
   config.connect_to "mongoid_rateable_test"
 end
+=end
+
 Mongoid.logger = Logger.new($stdout)
 
 DatabaseCleaner.orm = "mongoid"
