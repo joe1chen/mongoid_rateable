@@ -847,25 +847,13 @@ describe Comment do
 
 		describe "#rated_by" do
 			it "should return proper count of comments rated by Bob" do
-        count = 0
-        @post1.comments.each do |c|
-          count += 1 if c.rated_by?(@bob)
-        end
-        count.should eql 1
-
-        # In mongoid2, the scope rated_by in embedded comments is not working. As a workaround, iterate through comments and count manually.
-				#@post1.comments.rated_by(@bob).size.should eql 1
+        @post1.comments.select { |c| c.rated_by?(@bob) }.size.should eql 1     # In mongoid2, the scope rated_by in embedded comments is not working. As a workaround, use pure Ruby to select.
+        # @post1.comments.rated_by(@bob).size.should eql 1
 			end
 
 			it "should return proper count of comments rated by Sally" do
-        count = 0
-        @post1.comments.each do |c|
-          count += 1 if c.rated_by?(@sally)
-        end
-        count.should eql 2
-
-        # In mongoid2, the scope rated_by in embedded comments is not working. As a workaround, iterate through comments and count manually.
-				#@post1.comments.rated_by(@sally).size.should eql 2
+        @post1.comments.select { |c| c.rated_by?(@sally) }.size.should eql 2   # In mongoid2, the scope rated_by in embedded comments is not working. As a workaround, use pure Ruby to select.
+				# @post1.comments.rated_by(@sally).size.should eql 2
 			end
 		end
 
